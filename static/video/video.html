@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8">
+		<meta http-equiv="X-UA-Compatible" content="IE=edge">
+		<meta name="viewport" content="width=device-width, initial-scale=1">
+		<title>视频</title>
+		<link rel="stylesheet" href="//cdn.bootcss.com/bootstrap/3.3.5/css/bootstrap.min.css">
+		<link rel="stylesheet" type="text/css" href="css/demo.css">
+	</head>
+	<body>
+    <div class="row main">
+      <div class="col-md-12" style="padding: 0;">
+        <h2 class="top_title" id="video-title">视频 </h2>
+        <div class="container" style="width: 96%; margin: 30px auto">
+          <video id="video" controls loop="false" width="100%">
+            <!-- <source src="http://rm03.wscdn.hls.xiaoka.tv/live/fczjp0Dc_J60VGMN/playlist.m3u8" type="application/x-mpegURL" id="target"> -->
+          </video>
+        </div>
+      </div>
+    </div>
+
+    <script src="./hls.js"></script>
+    <script>
+      window.onload = function () {
+        var param = window.paramFromParent;
+        document.getElementById('video-title').textContent = param.name;
+        var video = document.getElementById('video');
+        if (Hls.isSupported()) {
+          var hls = new Hls();
+						// hls.loadSource(
+						// 	'https://yunqivedio.alicdn.com/2017yq/v2/0x0/96d79d3f5400514a6883869399708e11/96d79d3f5400514a6883869399708e11.m3u8'
+						// );
+          hls.loadSource(param.address);
+          // hls.loadSource('http://cdn.theoplayer.com/video/star_wars_episode_vii-the_force_awakens_official_comic-con_2015_reel_(2015)/index.m3u8');
+          hls.attachMedia(video);
+          hls.on(Hls.Events.MANIFEST_PARSED, function() {
+            video.play();
+          });
+        } else if (video.canPlayType('application/vnd.apple.mpegurl')) {
+          video.src = param.address;
+          video.addEventListener('loadedmetadata', function() {
+            video.play();
+          });
+        }
+      }
+    </script>
+	</body>
+</html>

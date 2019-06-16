@@ -1,0 +1,54 @@
+@import './variable.less';
+*{
+	padding: 0;
+	margin: 0;
+}
+html, body{
+	height: 100%;
+  font-size: 14px
+}
+#app {
+  height: 100vh;
+  color: #666;
+  // background-color: #F5F5F5;
+}
+#app .vux-popup-dialog{
+  bottom: 1rem
+}
+#app .weui-tabbar{
+  position: fixed;
+  bottom: 0;
+  z-index: 300
+}
+#app .vux-header{
+  width: 100%;
+  height: 3.5rem;
+  background: #2F2F34;
+  position: fixed;
+  top: 0;
+  z-index: 500;
+  .vux-header-back, .vux-header-left{
+    color: #fff;
+  }
+  .vux-header-left .left-arrow:before{
+    border: 1px solid #fff;
+    border-width: 2px 0 0 2px;
+    width: 10px;
+    height: 10px;
+  }
+  .vux-header-right{
+  }
+}
+#app /deep/.weui-tab__panel{
+  background-color: #F5F5F5;
+}
+#app{
+  /deep/ .weui-switch:before, /deep/ .weui-switch-cp__box:before,/deep/.weui-switch{
+    border-color: #04be02;
+        background-color: #04be02;
+      }
+    /deep/.weui-switch:checked{
+        background-color: #E34627;
+        border-color: #E34627;
+      }
+}
