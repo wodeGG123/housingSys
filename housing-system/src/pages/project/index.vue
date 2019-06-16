@@ -19,7 +19,7 @@
       <dl>
         <router-link :to="{path: '/government', query: { type: '1' }}">
         <dt><img :src="require('../../assets/image/icon/icon-project-3.png')" ></dt>
-        <dd>其它</dd>
+        <dd>房开类</dd>
          </router-link>
       </dl>
     </div>

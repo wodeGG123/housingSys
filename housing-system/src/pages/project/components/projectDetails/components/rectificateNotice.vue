@@ -2,7 +2,7 @@
 	<view-box class="wrap">
     <div class="title">
       <span>添加整改通知单</span>
-      <img :src="require('../../../../../assets/image/icon/icon-add.png')" alt="" @click="addRe">
+      <img v-if="rolesDo(['anjian','admin'])" :src="require('../../../../../assets/image/icon/icon-add.png')" alt="" @click="addRe">
     </div>
     <div class="content">
 
@@ -20,33 +20,45 @@
            <p>签发人:{{item.signer}}</p>
            <p>更新日期:{{item.lastTime}}</p>
            <div class="btn">
-               <p class="edit" @click.stop="$router.push({name: 'updateRe', params: { id: item.id }})">
+               <p v-if="rolesDo(['anjian','admin'])" class="edit" @click.stop="$router.push({name: 'updateRe', params: { id: item.id }})">
                  <img :src="require('../../../../../assets/image/icon/icon-edit.png')" alt="">
                  修改
-
                  </p>
-                 <p class="edit" @click.stop="replyShow = true">
+                 <p v-if="rolesDo(['shigongUnit','jianliUnit','jianseUnit'])" class="edit" @click.stop="handleReplyShow(item.id)">
                  <img :src="require('../../../../../assets/image/icon/icon-edit.png')" alt="">
                  回复
-
                  </p>
-               <p class="del" @click.stop="delItem(item.id)">
+                  <p v-if="rolesDo(['anjian','admin'])" class="edit" @click.stop="handleConfirmShow(item.id)">
+                 <img :src="require('../../../../../assets/image/icon/icon-edit.png')" alt="">
+                 确认
+                 </p>
+               <p v-if="rolesDo(['anjian','admin'])" class="del" @click.stop="delItem(item.id)">
                   <img :src="require('../../../../../assets/image/icon/icon-del.png')" alt="">
                  删除
                  </p>
            </div>
        </div>
  </div>
-    <toast v-model="showMsg" type="text">{{msg}}</toast>
+  <toast v-model="showMsg" type="text">{{msg}}</toast>
 	<div v-transfer-dom>
        <confirm v-model="replyShow"
       show-input
-      ref="confirm5"
+      ref="replyModal"
       :title="'回复'"
       @on-cancel="onReplyCancel"
       @on-confirm="onReplyConfirm"
       @on-show="onReplyShow"
       @on-hide="onReplyHide">
+      </confirm>
+    </div>
+    <div v-transfer-dom>
+       <confirm v-model="confirmShow"
+      ref="confirmModal"
+      :title="'确认整改完成'"
+      @on-cancel="onConfirmCancel"
+      @on-confirm="onConfirmConfirm"
+      @on-show="onConfirmShow"
+      @on-hide="onConfirmHide">
       </confirm>
     </div>
   </view-box>
@@ -55,13 +67,14 @@
 
 <script>
 import { PopupPicker, Group, XSwitch, Toast } from 'vux'
-import {getTypeList, getList, deleteRectification} from '@/api/project/government'
+import {getTypeList, getList, deleteRectification, rectificationReply, rectificationConfirm} from '@/api/project/government'
 export default {
   // props: {
   //   details: Object
   // },
   data () {
     return {
+      userInfo: {},
       list: [],
       typeVal: ['所有'],
       listType: [],
@@ -71,7 +84,10 @@ export default {
       listContent: [],
       typeId: '',
       showMsg: false,
-      replyShow: false
+      msg: '',
+      replyShow: false,
+      confirmShow: false,
+      ctrId: 0
     }
   },
   components: {
@@ -82,6 +98,8 @@ export default {
   },
   created () {
     console.log('id', this.$route.params.id)
+    let userInfo = JSON.parse(localStorage.getItem('username'))
+    this.userInfo = userInfo
     this.$nextTick(() => {
       this.list.push('所有')
       getTypeList().then(res => {
@@ -99,6 +117,17 @@ export default {
     this.getList()
   },
   methods: {
+    rolesDo (rols) {
+      let tag = false
+      for (let index = 0; index < rols.length; index++) {
+        const element = rols[index]
+        if (element === this.userInfo.roleCodes[0]) {
+          tag = true
+          break
+        }
+      }
+      return tag
+    },
     addRe () {
       this.$router.push({path: '/government/addRectificate/' + this.$route.params.id})
     },
@@ -129,10 +158,52 @@ export default {
         }
       })
     },
+    handleReplyShow (itemId) {
+      this.replyShow = true
+      this.ctrId = itemId
+    },
     onReplyCancel () {},
-    onReplyConfirm () {},
+    onReplyConfirm () {
+      let userInfo = JSON.parse(localStorage.getItem('username'))
+      rectificationReply({
+        rectificationId: this.ctrId,
+        reply: this.$refs.replyModal.msg,
+        principal: userInfo.name,
+        replyUserId: userInfo.userId,
+        replyRoleCode: userInfo.roleCodes[0]
+
+      }).then((data) => {
+        if (data.data.result) {
+          this.showMsg = true
+          this.msg = '回复成功！'
+        } else {
+          this.showMsg = true
+          this.msg = data.data.message
+        }
+      })
+    },
     onReplyShow () {},
-    onReplyHide () {}
+    onReplyHide () {},
+    handleConfirmShow (itemId) {
+      this.confirmShow = true
+      this.ctrId = itemId
+    },
+    onConfirmCancel () {},
+    onConfirmConfirm () {
+      rectificationConfirm({
+        id: this.ctrId
+      }).then((data) => {
+        if (data.data.result) {
+          this.showMsg = true
+          this.msg = '操作成功！'
+        } else {
+          this.showMsg = true
+          this.msg = data.data.message
+        }
+      })
+    },
+    onConfirmShow () {},
+    onConfirmHide () {}
   }
 
 }

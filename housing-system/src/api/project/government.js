@@ -1,5 +1,22 @@
 import request from '@/utils/request'
 import request2 from '@/utils/requestJson'
+
+// 整改回复
+export function rectificationReply (data) {
+  return request({
+    url: 'rectification/app/reply2',
+    method: 'post',
+    data: data
+  })
+}
+// 整改确认
+export function rectificationConfirm (data) {
+  return request({
+    url: 'rectification/app/confirm2',
+    method: 'post',
+    data: data
+  })
+}
 // 获取整改通知类型接口：
 // /rectificationType/app/list
 // 参数：PageInfo pageInfo, RectificationType rectificationType

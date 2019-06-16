@@ -3,7 +3,7 @@ import axios from 'axios'
 import qs from 'qs'
 import store from '../store'
 import { getAuthToken } from '@/utils/auth'
-import  { AlertPlugin } from 'vux'
+import { AlertPlugin } from 'vux'
 Vue.use(AlertPlugin)
 
 // 创建axios实例
@@ -15,9 +15,9 @@ const service = axios.create({
 // request拦截器
 service.interceptors.request.use(config => {
   config.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-   if(config.method=='post'){
-      config.data = qs.stringify(config.data)//防止post请求参数无法传到后台
-    }
+  if (config.method == 'post') {
+    config.data = qs.stringify(config.data)// 防止post请求参数无法传到后台
+  }
   if (store.getters.token) {
     config.headers['Authorization'] = getAuthToken() // 让每个请求携带自定义token 请根据实际情况自行修改
   }
@@ -33,14 +33,14 @@ service.interceptors.response.use(
     if (!res.result) {
       // 出错信息捕捉
       if (res.message !== '' && res.message !== null) {
-        this.$vux.alert.show({
-          title: res.message
-        })
+        // this.$vux.alert.show({
+        //   title: res.message
+        // })
       }
     }
     if (res.status === 500) {
       this.$vux.alert.show({
-        title:'服务器出差了，请稍等哦！'
+        title: '服务器出差了，请稍等哦！'
       })
     } else {
       return response
@@ -49,7 +49,7 @@ service.interceptors.response.use(
   error => {
     if (error.message !== '' && error.message !== null) {
       this.$vux.alert.show({
-        title:error.message
+        title: error.message
       })
     }
     return Promise.reject(error)

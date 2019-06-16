@@ -89,53 +89,55 @@
 
   </template>
 
-  <script>
-    import { XInput, Group, XButton, Toast } from 'vux'
-    import { setUsername } from '@/utils/auth'
-    import { login } from '@/api/login'
-    export default {
-      name: 'index',
-      components: {Toast},
-      data () {
-        return {
-          username:'',
-          password:'',
-          showMsg: false,
-          msg: ''
+<script>
+import { XInput, Group, XButton, Toast } from 'vux'
+import { setUsername } from '@/utils/auth'
+import { login } from '@/api/login'
+export default {
+  name: 'index',
+  components: {Toast},
+  data () {
+    return {
+      username: '',
+      password: '',
+      showMsg: false,
+      msg: ''
 
-        }
-      },
-      mounted: function () {
+    }
+  },
+  mounted: function () {
 
-      },
-      methods: {
-        btn(){
-          console.log('this',this.username,this.password)
-          if (this.username === '' || this.password === '' || this.username === undefined || this.password === undefined) {
-            this.showMsg = true
-            this.msg = '账号或密码为空！'
-          }else {
-            login({username:this.username,password:this.password}).then(res=>{
-              this.showMsg = true
-              console.log('this',res)
-              this.msg = res.data.message
-                if(res.data.result){
-                  let nameData={
-                    name:res.data.data.name ,
-                    roleCodes:res.data.data.roleCodes ,
-                    username:res.data.data.username
-                  }
-                  setUsername(nameData)
-                  // this.$router.push('/')
-                  this.$router.push({ name: 'home'})
-                }
-            })
+  },
+  methods: {
+    btn () {
+      console.log('this', this.username, this.password)
+      if (this.username === '' || this.password === '' || this.username === undefined || this.password === undefined) {
+        this.showMsg = true
+        this.msg = '账号或密码为空！'
+      } else {
+        login({username: this.username, password: this.password}).then(res => {
+          this.showMsg = true
+          console.log('this', res)
+          this.msg = res.data.message
+          if (res.data.result) {
+            let nameData = {
+              name: res.data.data.name,
+              roleCodes: res.data.data.roleCodes,
+              username: res.data.data.username,
+              roleIds: res.data.data.roleIds,
+              userId: res.data.data.userId
+
+            }
+            setUsername(nameData)
+            // this.$router.push('/')
+            this.$router.push({ name: 'home'})
           }
-
-        }
+        })
       }
     }
-  </script>
+  }
+}
+</script>
 
   <style  scoped>
     @import './css/component.css';
