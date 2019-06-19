@@ -36,6 +36,7 @@ main{
   width: 100%;
   height: 100%;
   box-sizing: border-box;
+  background: #F5F5F5;
 }
 .icon-home{
   width: 22px;

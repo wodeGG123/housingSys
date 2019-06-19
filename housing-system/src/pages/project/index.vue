@@ -11,13 +11,13 @@
          </router-link>
       </dl>
       <dl>
-        <router-link :to="{path: '/government', query: { type: '1' }}">
+        <router-link :to="{path: '/government', query: { type: '2' }}">
         <dt><img :src="require('../../assets/image/icon/icon-project-2.png')" ></dt>
         <dd>公租房</dd>
          </router-link>
       </dl>
       <dl>
-        <router-link :to="{path: '/government', query: { type: '1' }}">
+        <router-link :to="{path: '/government', query: { type: '0' }}">
         <dt><img :src="require('../../assets/image/icon/icon-project-3.png')" ></dt>
         <dd>房开类</dd>
          </router-link>

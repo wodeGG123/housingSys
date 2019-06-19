@@ -120,14 +120,8 @@ export default {
           console.log('this', res)
           this.msg = res.data.message
           if (res.data.result) {
-            let nameData = {
-              name: res.data.data.name,
-              roleCodes: res.data.data.roleCodes,
-              username: res.data.data.username,
-              roleIds: res.data.data.roleIds,
-              userId: res.data.data.userId
-
-            }
+            let nameData = res.data.data
+            nameData.token = res.data.ext
             setUsername(nameData)
             // this.$router.push('/')
             this.$router.push({ name: 'home'})

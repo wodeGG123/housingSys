@@ -1,36 +1,21 @@
 const routes = [
   {
     path: '/migrantWorker',
-    name: 'migrantWorker',
-    component: () => import('@/pages/migrantWorker'),
-    redirect: 'migrantWorker/list',
-    children: [
-      {
-        path: 'list',
-        meta: { title: '项目列表' },
-        component: () => import('@/pages/migrantWorker/list')
-      },
-      {
-        path: 'details',
-        name: 'migrantWorkerDetails',
-        meta: { title: '项目管理信息'},
-        component: () => import('@/pages/migrantWorker/details'),
-        redirect: 'details/entranceList',
-        children: [
-          {
-            path: 'entranceList',
-            meta: { title: '门禁信息' },
-            component: () => import('@/pages/migrantWorker/details/entranceList')
-          },
-          {
-            path: 'entranceDetails',
-            name: 'entranceDetails',
-            meta: { title: '门禁详情' },
-            component: () => import('@/pages/migrantWorker/details/entranceDetails')
-          }
-        ]
-      }
-    ]
+    name: 'projectList',
+    meta: { title: '项目列表' },
+    component: () => import('@/pages/migrantWorker/projectWorkerList')
+  },
+  {
+    path: '/migrantWorker/projectList/entranceList/:projectId',
+    name: 'entranceList',
+    meta: { title: '门禁信息列表' },
+    component: () => import('@/pages/migrantWorker/entranceList')
+  },
+  {
+    path: '/migrantWorker/projectList/entranceList/workerList/:projectId/:equptID',
+    name: 'workerList',
+    meta: { title: '人员信息列表' },
+    component: () => import('@/pages/migrantWorker/entranceWorkerList')
   }
 ]
 

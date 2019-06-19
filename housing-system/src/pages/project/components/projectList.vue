@@ -8,11 +8,12 @@
        添加+
       </span>
     </div>
-    <scroll class="wrapper" :data="projectList">
+    <div class="wrapper" :data="projectList">
       <div>
           <div class="list-wrapper" v-if="projectList.length > 0">
           <v-touch class="list-item"
             :class="{'will-delete-item': showDeleteIndexArr.indexOf(index) > -1}"
+            :swipe-options="{direction: 'horizontal'}"
             v-for="(item, index) of projectList" :key="item.id"
             v-on:swipeleft="showDelete(index)"
             v-on:swiperight="cancelDelete(index)"
@@ -31,7 +32,7 @@
           <div class="no-list-item" v-if="projectList.length === 0">暂无相关数据！</div>
         </div>
       </div>
-    </scroll>
+    </div>
   </view-box>
 </template>
 
