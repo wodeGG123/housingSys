@@ -8,9 +8,6 @@
   		 :minute-list="['00', '15', '30', '45']"
   		 @on-change="change"></datetime>
     </group>
-    <div id="calendar" class="calendar-wrap">
-        <FullCalendar locale='zh-cn' defaultView="dayGridMonth" :plugins="calendarPlugins" :events="events" />
-    </div>
     <div class="list-wrapper">
       <div class="title">
         <span>
@@ -36,42 +33,11 @@
 <script>
 import userImg from '@/assets/image/project-img.jpg'
 import { getEntranceList } from '@/api/migrantWorker'
-import FullCalendar from '@fullcalendar/vue'
-import dayGridPlugin from '@fullcalendar/daygrid'
-import '@fullcalendar/core/main.css'
-import '@fullcalendar/daygrid/main.css'
+
 export default {
-  components: {FullCalendar},
+
   data () {
     return {
-      calendarPlugins: [ dayGridPlugin ],
-      events: [
-        {
-          id: 'a',
-          title: '出勤',
-          start: '2019-06-01',
-          classNames: 'bggreen'
-        },
-        {
-          id: 'a',
-          title: '缺勤',
-          start: '2019-06-01',
-          classNames: 'bgred'
-        },
-        {
-          id: 'a',
-          title: '出勤',
-          start: '2019-06-04',
-          classNames: 'bggreen'
-        },
-        {
-          id: 'a',
-          title: '缺勤',
-          start: '2019-06-04',
-          classNames: 'bgred'
-        }
-
-      ],
       projectId: this.$route.params.projectId,
       hourListValue: '2019-4-30 11:29:30',
       userImg,
@@ -104,24 +70,3 @@ export default {
 }
 
 </script>
-<style lang="less">
-.bggreen{
-    background-color: transparent;
-    color: green;
-    border: none;
-}
-.bggreen::after{
-    content: '';
-    display: block;
-    height: 1px;
-    width: 87%;
-    background-color: #999;
-    transform: rotate(-34deg) translateX(3px) translateY(3px);
-}
-.bgred{
-     background-color: transparent;
-    color: red;
-     border: none;
-     text-align: right;
-}
-</style>

@@ -3,7 +3,7 @@ import axios from 'axios'
 import qs from 'qs'
 import store from '../store'
 import { getAuthToken } from '@/utils/auth'
-import  { AlertPlugin } from 'vux'
+import { AlertPlugin } from 'vux'
 Vue.use(AlertPlugin)
 
 // 创建axios实例
@@ -14,8 +14,9 @@ const service = axios.create({
 })
 // request拦截器
 service.interceptors.request.use(config => {
-  if (store.getters.token) {
-    config.headers['Authorization'] = getAuthToken() // 让每个请求携带自定义token 请根据实际情况自行修改
+  let userInfo = JSON.parse(localStorage.getItem('username'))
+  if (userInfo) {
+    config.headers['Authorization'] = userInfo.token
   }
   return config
 }, error => {
@@ -36,7 +37,7 @@ service.interceptors.response.use(
     }
     if (res.status === 500) {
       this.$vux.alert.show({
-        title:'服务器出差了，请稍等哦！'
+        title: '服务器出差了，请稍等哦！'
       })
     } else {
       return response
@@ -45,7 +46,7 @@ service.interceptors.response.use(
   error => {
     if (error.message !== '' && error.message !== null) {
       this.$vux.alert.show({
-        title:error.message
+        title: error.message
       })
     }
     return Promise.reject(error)

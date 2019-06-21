@@ -40,7 +40,7 @@
        </div>
  </div>
   <toast v-model="showMsg" type="text">{{msg}}</toast>
-	<div v-transfer-dom>
+    <div v-transfer-dom>
        <confirm v-model="replyShow"
       show-input
       ref="replyModal"
@@ -51,6 +51,18 @@
       @on-hide="onReplyHide">
       </confirm>
     </div>
+      <!-- <div v-transfer-dom>
+      <x-dialog v-model="replyShow" class="dialog-demo">
+        <div>
+           <h2>回复</h2>
+           <x-input title="title" v-model="replyText"></x-input>
+           <div>
+             <x-button>submit</x-button>
+             <x-button type="primary">primary</x-button>
+           </div>
+        </div>
+      </x-dialog>
+    </div> -->
     <div v-transfer-dom>
        <confirm v-model="confirmShow"
       ref="confirmModal"
@@ -66,7 +78,7 @@
 </template>
 
 <script>
-import { PopupPicker, Group, XSwitch, Toast } from 'vux'
+import { PopupPicker, Group, XSwitch, Toast, XInput } from 'vux'
 import {getTypeList, getList, deleteRectification, rectificationReply, rectificationConfirm} from '@/api/project/government'
 export default {
   // props: {
@@ -94,7 +106,8 @@ export default {
     PopupPicker,
     Group,
     XSwitch,
-    Toast
+    Toast,
+    XInput
   },
   created () {
     console.log('id', this.$route.params.id)

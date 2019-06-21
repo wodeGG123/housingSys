@@ -6,7 +6,13 @@
           进出人员详细
         </span>
       </div>
-      <v-touch class="list-item" v-for="(item, index) of workerList" :key="index">
+      <v-touch
+      class="list-item"
+      v-for="(item, index) of workerList"
+      :key="index"
+      v-on:tap="$router.push({ name: 'signInInfo', params: {
+         workerid: item.workerId}})"
+      >
         <div class="left-img">
           <img :src="item.avator" alt="">
         </div>
@@ -23,7 +29,7 @@
 <script>
 import { getWorkerList } from '@/api/migrantWorker'
 export default {
-  data() {
+  data () {
     return {
       listQuery: {
         PageInfo: {
@@ -41,11 +47,11 @@ export default {
       workerList: []
     }
   },
-  mounted() {
+  mounted () {
     this.getWorkerList(this.listQuery)
   },
   methods: {
-    getWorkerList(listQuery) {
+    getWorkerList (listQuery) {
       this.$store.commit('updateLoadingStatus', true)
       console.log(listQuery)
       getWorkerList(listQuery).then(res => {
@@ -54,7 +60,7 @@ export default {
         this.$store.commit('updateLoadingStatus', false)
       })
     },
-    filterList(list) {
+    filterList (list) {
       this.workerList = list.filter(item => {
         return item.projectId === this.$route.params.projectId && item.equptID === this.$route.params.equptID
       })

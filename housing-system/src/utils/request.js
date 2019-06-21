@@ -16,7 +16,9 @@ const service = axios.create({
 service.interceptors.request.use(config => {
   let userInfo = JSON.parse(localStorage.getItem('username'))
   config.headers['Content-Type'] = 'application/x-www-form-urlencoded;charset=UTF-8'
-  config.headers['Authorization'] = userInfo.token
+  if (userInfo) {
+    config.headers['Authorization'] = userInfo.token
+  }
   if (config.method == 'post') {
     config.data = qs.stringify(config.data)// 防止post请求参数无法传到后台
   }

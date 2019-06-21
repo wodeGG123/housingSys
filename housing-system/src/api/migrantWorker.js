@@ -17,3 +17,11 @@ export function getWorkerList (data) {
     data: data
   })
 }
+// 获取签到信息
+export function getSignInInfo (data) {
+  return request({
+    url: '/acs/app/acsWorkerDate',
+    method: 'post',
+    data: data
+  })
+}
